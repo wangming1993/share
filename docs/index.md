@@ -105,6 +105,10 @@ service HelloService {
 
 [slide]
 
+基于[consul-template](https://github.com/hashicorp/consul-template)的配置管理
+
+[slide]
+
 # 与 docker 的完美配合
 
 - [containerpilot](https://github.com/joyent/containerpilot/blob/master/docs/30-configuration/32-configuration-file.md#consul)
