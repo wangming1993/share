@@ -3,6 +3,7 @@ package main
 import (
 	"flag"
 	"fmt"
+	"time"
 
 	"github.com/wangming1993/share/grpc/discovery/consul"
 	pb "github.com/wangming1993/share/grpc/proto"
@@ -17,7 +18,7 @@ var (
 func main() {
 	flag.Parse()
 
-	sayHello()
+	go sayHello()
 	getMember()
 }
 
@@ -30,13 +31,15 @@ func sayHello() {
 		panic(err)
 	}
 
-	client := pb.NewHelloServiceClient(conn)
-	resp, err := client.SayHello(context.Background(), &pb.HelloRequest{Greeting: "world"})
-	if err != nil {
-		panic(err)
+	ticker := time.NewTicker(2 * time.Second)
+	for t := range ticker.C {
+		client := pb.NewHelloServiceClient(conn)
+		resp, err := client.SayHello(context.Background(), &pb.HelloRequest{Greeting: "world"})
+		if err != nil {
+			panic(err)
+		}
+		fmt.Printf("%v: Reply is %s\n", t, resp.Reply)
 	}
-
-	fmt.Printf(" Reply is %s\n", resp.Reply)
 }
 
 func getMember() {
@@ -48,11 +51,13 @@ func getMember() {
 		panic(err)
 	}
 
-	client := pb.NewMemberServiceClient(conn)
-	resp, err := client.GetMember(context.Background(), &pb.MemberInfoRequest{Id: "mike"})
-	if err != nil {
-		panic(err)
+	ticker := time.NewTicker(2 * time.Second)
+	for t := range ticker.C {
+		client := pb.NewMemberServiceClient(conn)
+		resp, err := client.GetMember(context.Background(), &pb.MemberInfoRequest{Id: "Mike"})
+		if err != nil {
+			panic(err)
+		}
+		fmt.Printf("%v: Reply is %s\n", t, resp)
 	}
-
-	fmt.Printf(" Reply is %+v \n", resp)
 }
