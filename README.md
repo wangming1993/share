@@ -17,7 +17,7 @@ cd $GOPATH/src/github.com/wangming1993/share/grpc/proto
 
 docker pull registry.cn-hangzhou.aliyuncs.com/wangming/protoc:1.0
 
-ocker run -i --rm \
+docker run -i --rm \
     -v $GOPATH/src/github.com/wangming1993/share/grpc/proto:/srv/proto \
     -w /srv/proto \
     registry.cn-hangzhou.aliyuncs.com/wangming/protoc:1.0 \
@@ -29,7 +29,11 @@ ocker run -i --rm \
 ```shell
 cd $GOPATH/src/github.com/wangming1993/share/grpc/server
 
-go run main.go
+go run main.go --port=1701
+
+# 启动多个grpc service 以测试负载均衡
+go run main.go --port=1702
+
 ```
 
 
@@ -41,12 +45,3 @@ cd $GOPATH/src/github.com/wangming1993/share/grpc/client
 go run main.go
 ```
 
-```shell
-registry.cn-hangzhou.aliyuncs.com/wangming/protoc
-
-docker run -i --rm \
-    -v $GOPATH/src/github.com/wangming1993/share/grpc/proto \
-    -w $GOPATH/src/github.com/wangming1993/share/grpc/proto \
-    registry.cn-hangzhou.aliyuncs.com/wangming/protoc \
-    bash -c "protoc -I=. *.proto --go_out=plugins=grpc:."
-```
