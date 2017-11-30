@@ -115,6 +115,10 @@ service HelloService {
 </article></section></slide>
 <slide class="slide"><section class="slide-wrapper"><article>
 <h2>使用 consul 实现服务注册与服务发现</h2>
+<ul>
+<li>Consul 是一个支持多数据中心分布式高可用的服务发现和配置共享的服务软件,用 Go 语言开发</li>
+<li>一致性协议采用 Raft 算法,用来保证服务的高可用</li>
+</ul>
 
 </article></section></slide>
 <slide class="slide"><section class="slide-wrapper"><article class="flexbox vcenter">
@@ -127,8 +131,10 @@ service HelloService {
 <slide class="slide"><section class="slide-wrapper"><article>
 <h2>middleware</h2>
 <ul>
+<li>go-grpc-middleware <a href="https://github.com/grpc-ecosystem/go-grpc-middleware" target="_blank">https://github.com/grpc-ecosystem/go-grpc-middleware</a></li>
 <li>tracing  <a href="https://github.com/opentracing/opentracing-go" target="_blank">https://github.com/opentracing/opentracing-go</a></li>
 <li>熔断和服务降级 <a href="https://github.com/Netflix/Hystrix" target="_blank">https://github.com/Netflix/Hystrix</a></li>
+<li>grpc-gateway <a href="https://github.com/grpc-ecosystem/grpc-gateway" target="_blank">https://github.com/grpc-ecosystem/grpc-gateway</a></li>
 </ul>
 
 </article></section></slide>

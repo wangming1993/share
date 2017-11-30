@@ -100,6 +100,9 @@ service HelloService {
 
 ## 使用 consul 实现服务注册与服务发现
 
+- Consul 是一个支持多数据中心分布式高可用的服务发现和配置共享的服务软件,用 Go 语言开发
+- 一致性协议采用 Raft 算法,用来保证服务的高可用
+
 [slide]
 
 # 与 docker 的完美配合
@@ -110,8 +113,10 @@ service HelloService {
 
 ## middleware
 
+- go-grpc-middleware https://github.com/grpc-ecosystem/go-grpc-middleware
 - tracing  https://github.com/opentracing/opentracing-go
 - 熔断和服务降级 https://github.com/Netflix/Hystrix
+- grpc-gateway https://github.com/grpc-ecosystem/grpc-gateway
 
 [slide]
 
