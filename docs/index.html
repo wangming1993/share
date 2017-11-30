@@ -8,7 +8,7 @@
 <html>
 <head>
     <meta charset="UTF-8">
-    <title>使用 go + grpc 打造微服务系统 - By Mike Wang</title>
+    <title>基于 grpc + consul 的微服务系统 - By Mike Wang</title>
     <link rel="stylesheet" media="all" href="./css/nodeppt.css">
     <link rel="stylesheet" media="only screen and (max-device-width: 480px)" href="./css/phone.css">
     
@@ -21,59 +21,13 @@
 <div class="slides">
     <slides id="container">
         <slide class="slide"><section class="slide-wrapper"><article class="flexbox vcenter">
-<h1>基于 go + grpc + consul 的微服务系统</h1>
+<h1>基于 grpc + consul 的微服务系统</h1>
 <h2>演讲者：Mike Wang</h2>
-
-</article></section></slide>
-<slide class="slide" data-transition="vertical3d"><section class="slide-wrapper"><article class="flexbox vcenter">
-<h1>WHY GO !!!</h1>
-
-</article></section></slide>
-<slide class="slide"><section class="slide-wrapper"><article>
-<h2>go 的优势</h2>
-<ul>
-<li>开源的，大公司做背书</li>
-<li>编译快，静态编译，极易部署</li>
-<li>跨平台</li>
-<li>语法简单</li>
-<li>天然的并发</li>
-</ul>
-
-</article></section></slide>
-<slide class="slide"><section class="slide-wrapper"><article class="flexbox vcenter">
-<h1>Go 的基本使用</h1>
-<pre><code class="go">package main
-
-import &quot;fmt&quot;
-
-func main() {
-    fmt.Println(&quot;hello world&quot;)
-}
-</code></pre>
-<pre><code class="go">$ go build hello-world.go
-$ ls
-hello-world hello-world.go
-
-$ ./hello-world
-hello world
-</code></pre>
-
-</article></section></slide>
-<slide class="slide"><section class="slide-wrapper"><article class="flexbox vcenter">
-<h1>go 的基本概念</h1>
-<ul>
-<li>package</li>
-<li>interface</li>
-<li>匿名函数，闭包</li>
-<li>结构体，指针</li>
-<li>管道</li>
-<li>协程</li>
-</ul>
 
 </article></section></slide>
 <slide class="slide"><section class="slide-wrapper"><article class="flexbox vcenter">
 <h1>什么是微服务</h1>
-<p>微服务是一种架构风格，一个大型复杂软件应用由一个或多个微服务组成。系统中的各个微服务可被独立部署，各个微服务之间是松耦合的。每个微服务仅关注于完成一件任务并很好地完成该任务。在所有情况下，每个任务代表着一个小的业务能力</p>
+<p>系统由N多可独立部署的服务组成，各个微服务之间是松耦合的。每个微服务仅关注于完成一件任务。在所有情况下，每个任务代表着一个小的业务能力</p>
 
 </article></section></slide>
 <slide class="slide"><section class="slide-wrapper"><article>
@@ -81,7 +35,7 @@ hello world
 <ul>
 <li>每个服务都比较简单，只关注于一个业务功能。</li>
 <li>微服务架构方式是松耦合的，可以提供更高的灵活性。</li>
-<li>微服务可通过最佳及最合适的不同的编程语言与工具进行开发，能够做到有的放矢地解决针对性问题。</li>
+<li>微服务在语言选择上更灵活，不同服务的团队可以选择自己熟练的语言。</li>
 <li>每个微服务可由不同团队独立开发，互不影响，加快推出市场的速度。</li>
 <li>微服务架构是持续交付(CD)的巨大推动力，允许在频繁发布不同服务的同时保持系统其他部分的可用性和稳定性</li>
 </ul>
@@ -110,29 +64,71 @@ hello world
 </article></div></div></section></slide>
 <slide class="slide"><section class="slide-wrapper"><article class="flexbox vcenter">
 <h1>WHY GRPC!!!</h1>
+<h2><a href="https://grpc.io/" target="_blank">https://grpc.io/</a></h2>
 
 </article></section></slide>
 <slide class="slide"><section class="slide-wrapper"><article>
-<h2>Core Features</h2>
+<img src="./img/grpc-features.png" alt="">
+
+</article></section></slide>
+<slide class="slide"><section class="slide-wrapper"><article class="flexbox vcenter">
+<h1>服务定义简单, 基于 <a href="https://developers.google.com/protocol-buffers/docs/overview" target="_blank">Protocol Buffer</a></h1>
 <ul>
-<li>Idiomatic client libraries in 10 languages</li>
-<li>Highly efficient on wire and with a simple service definition framework</li>
-<li>Bi-directional streaming with http/2 based transport</li>
-<li>Pluggable auth, tracing, load balancing and health checking</li>
+<li>protocol buffers 是一种与语言，平台无关的数据序列化协议，由 google 开源</li>
+<li>它灵活， 高效， 自动化， 类似于 XML, JSON, 但是更小，更快，更简单</li>
 </ul>
+
+</article></section></slide>
+<slide class="slide"><section class="slide-wrapper"><article>
+<pre><code class="proto">message HelloRequest {
+  string greeting = 1;
+}
+
+message HelloResponse {
+  string reply = 1;
+}
+
+service HelloService {
+  rpc SayHello (HelloRequest) returns (HelloResponse);
+}
+</code></pre>
+
+</article></section></slide>
+<slide class="slide"><section class="slide-wrapper"><article>
+<h2>多语言支持</h2>
+<img src="./img/grpc-languages.png" alt="">
+
+</article></section></slide>
+<slide class="slide"><section class="slide-wrapper"><article class="flexbox vcenter">
+<h1>基于 http2 的数据传输</h1>
+<ul>
+<li>多路复用</li>
+<li>二进制分帧</li>
+<li>首部压缩</li>
+<li>服务端推送</li>
+</ul>
+
+</article></section></slide>
+<slide class="slide"><section class="slide-wrapper"><article>
+<img src="./img/http2.png" alt="">
 
 </article></section></slide>
 <slide class="slide"><section class="slide-wrapper"><article>
 <h2>使用 consul 实现服务注册与服务发现</h2>
 
 </article></section></slide>
+<slide class="slide"><section class="slide-wrapper"><article class="flexbox vcenter">
+<h1>与 docker 的完美配合</h1>
+<ul>
+<li><a href="https://github.com/joyent/containerpilot/blob/master/docs/30-configuration/32-configuration-file.md#consul" target="_blank">containerpilot</a></li>
+</ul>
+
+</article></section></slide>
 <slide class="slide"><section class="slide-wrapper"><article>
 <h2>middleware</h2>
 <ul>
-<li>auth</li>
-<li>tracing (opentracing)</li>
-<li>load balance</li>
-<li>熔断</li>
+<li>tracing  <a href="https://github.com/opentracing/opentracing-go" target="_blank">https://github.com/opentracing/opentracing-go</a></li>
+<li>熔断和服务降级 <a href="https://github.com/Netflix/Hystrix" target="_blank">https://github.com/Netflix/Hystrix</a></li>
 </ul>
 
 </article></section></slide>
