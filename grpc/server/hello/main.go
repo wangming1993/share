@@ -39,10 +39,8 @@ func main() {
 	s.Serve(lis)
 }
 
-type helloServer struct {
-}
+type helloServer struct{}
 
 func (helloServer) SayHello(ctx context.Context, req *pb.HelloRequest) (*pb.HelloResponse, error) {
-	log.Printf("getting request from client.\n")
 	return &pb.HelloResponse{Reply: "Hello, " + req.Greeting}, nil
 }

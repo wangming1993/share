@@ -29,10 +29,15 @@ docker run -i --rm \
 ```shell
 cd $GOPATH/src/github.com/wangming1993/share/grpc/server
 
-go run main.go --port=1701
+# 启动hello service
+go run hello/main.go
+
+# 启动 member service
+go run member/main.go
 
 # 启动多个grpc service 以测试负载均衡
-go run main.go --port=1702
+go run hello/main.go --port=1801
+go run member/main.go --port=1802
 
 ```
 

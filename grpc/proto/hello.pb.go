@@ -6,10 +6,13 @@ Package proto is a generated protocol buffer package.
 
 It is generated from these files:
 	hello.proto
+	member.proto
 
 It has these top-level messages:
 	HelloRequest
 	HelloResponse
+	MemberInfoRequest
+	MemberInfoResponse
 */
 package proto
 
