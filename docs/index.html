@@ -80,16 +80,22 @@
 
 </article></section></slide>
 <slide class="slide"><section class="slide-wrapper"><article>
-<pre><code class="proto">message HelloRequest {
-  string greeting = 1;
+<pre><code class="proto">syntax = &quot;proto3&quot;;
+
+package proto;
+
+// protoc -I=. *.proto --go_out=plugins=grpc:.
+
+message HelloRequest {
+    string greeting = 1;
 }
 
 message HelloResponse {
-  string reply = 1;
+    string reply = 1;
 }
 
 service HelloService {
-  rpc SayHello (HelloRequest) returns (HelloResponse);
+    rpc SayHello(HelloRequest) returns (HelloResponse);
 }
 </code></pre>
 
@@ -132,13 +138,38 @@ service HelloService {
 </ul>
 
 </article></section></slide>
+<slide class="slide"><section class="slide-wrapper"><article class="flexbox vcenter">
+<h1>日志服务</h1>
+<h2><code>sls</code> + <code>TraceId</code></h2>
+<ul>
+<li>每一个 request 会携带一个 <code>X-Req-ID</code> 的 <code>Header</code>, grpc 调用时会携带在 <code>context</code> metadata 中，记录整个链路调用过程</li>
+</ul>
+
+</article></section></slide>
+<slide class="slide"><section class="slide-wrapper"><article>
+<h2>监控服务</h2>
+<p><a href="https://www.elastic.co/products/kibana" target="_blank">kibana</a> + <a href="https://www.influxdata.com/" target="_blank">influxdb</a></p>
+
+</article></section></slide>
 <slide class="slide"><section class="slide-wrapper"><article>
 <h2>middleware</h2>
 <ul>
-<li>go-grpc-middleware <a href="https://github.com/grpc-ecosystem/go-grpc-middleware" target="_blank">https://github.com/grpc-ecosystem/go-grpc-middleware</a></li>
-<li>tracing  <a href="https://github.com/opentracing/opentracing-go" target="_blank">https://github.com/opentracing/opentracing-go</a></li>
-<li>熔断和服务降级 <a href="https://github.com/Netflix/Hystrix" target="_blank">https://github.com/Netflix/Hystrix</a></li>
-<li>grpc-gateway <a href="https://github.com/grpc-ecosystem/grpc-gateway" target="_blank">https://github.com/grpc-ecosystem/grpc-gateway</a></li>
+<li>go-grpc-middleware <ul>
+<li><a href="https://github.com/grpc-ecosystem/go-grpc-middleware" target="_blank">https://github.com/grpc-ecosystem/go-grpc-middleware</a></li>
+</ul>
+</li>
+<li>tracing  <ul>
+<li><a href="https://github.com/opentracing/opentracing-go" target="_blank">https://github.com/opentracing/opentracing-go</a></li>
+</ul>
+</li>
+<li>熔断和服务降级 <ul>
+<li><a href="https://github.com/Netflix/Hystrix" target="_blank">https://github.com/Netflix/Hystrix</a></li>
+</ul>
+</li>
+<li>grpc-gateway <ul>
+<li><a href="https://github.com/grpc-ecosystem/grpc-gateway" target="_blank">https://github.com/grpc-ecosystem/grpc-gateway</a></li>
+</ul>
+</li>
 </ul>
 
 </article></section></slide>

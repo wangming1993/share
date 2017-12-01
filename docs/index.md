@@ -64,17 +64,24 @@ theme: moon
 [slide]
 
 ```proto
+syntax = "proto3";
+
+package proto;
+
+// protoc -I=. *.proto --go_out=plugins=grpc:.
+
 message HelloRequest {
-  string greeting = 1;
+    string greeting = 1;
 }
 
 message HelloResponse {
-  string reply = 1;
+    string reply = 1;
 }
 
 service HelloService {
-  rpc SayHello (HelloRequest) returns (HelloResponse);
+    rpc SayHello(HelloRequest) returns (HelloResponse);
 }
+
 ```
 
 [slide]
@@ -115,12 +122,30 @@ service HelloService {
 
 [slide]
 
+# 日志服务
+
+## `sls` + `TraceId`
+
+- 每一个 request 会携带一个 `X-Req-ID` 的 `Header`, grpc 调用时会携带在 `context` metadata 中，记录整个链路调用过程 
+
+[slide]
+
+## 监控服务
+
+[kibana](https://www.elastic.co/products/kibana) + [influxdb](https://www.influxdata.com/)
+
+[slide]
+
 ## middleware
 
-- go-grpc-middleware https://github.com/grpc-ecosystem/go-grpc-middleware
-- tracing  https://github.com/opentracing/opentracing-go
-- 熔断和服务降级 https://github.com/Netflix/Hystrix
-- grpc-gateway https://github.com/grpc-ecosystem/grpc-gateway
+- go-grpc-middleware 
+    - https://github.com/grpc-ecosystem/go-grpc-middleware
+- tracing  
+    - https://github.com/opentracing/opentracing-go
+- 熔断和服务降级 
+    - https://github.com/Netflix/Hystrix
+- grpc-gateway 
+    - https://github.com/grpc-ecosystem/grpc-gateway
 
 [slide]
 

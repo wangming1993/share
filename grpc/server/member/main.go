@@ -5,6 +5,7 @@ import (
 	"fmt"
 	"log"
 	"net"
+	"sync/atomic"
 	"time"
 
 	"golang.org/x/net/context"
@@ -19,6 +20,8 @@ var (
 	port = flag.Int("port", 1702, "listening port")
 	reg  = flag.String("reg", "127.0.0.1:8500", "register address")
 )
+
+var CallTimes int64 = 0
 
 func main() {
 	flag.Parse()
@@ -42,6 +45,8 @@ func main() {
 type memberServer struct{}
 
 func (memberServer) GetMember(ctx context.Context, req *pb.MemberInfoRequest) (*pb.MemberInfoResponse, error) {
+	atomic.AddInt64(&CallTimes, 1)
+	fmt.Printf("Received request: %d times \n", atomic.LoadInt64(&CallTimes))
 	return &pb.MemberInfoResponse{
 		Name:  "mike",
 		Age:   25,
