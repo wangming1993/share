@@ -5,4 +5,7 @@ go:
   - master
 
 script:
-  - go fmt grpc/server/*.go
+  - find grpc -name "*.go" -not -path "grpc/vendor/*" | xargs gofmt -w
+  - git diff --exit-code --quiet
+  - exit $?
+
