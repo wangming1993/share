@@ -1,5 +1,7 @@
 # 基于 go + grpc + consul 的微服务系统
 
+[![Build Status](https://travis-ci.org/wangming1993/share.svg?branch=master)](https://travis-ci.org/wangming1993/share)
+
 ## 启动 consul
 
 ```shell
