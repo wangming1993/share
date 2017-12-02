@@ -4,6 +4,9 @@ language: go
 go:
   - master
 
+install:
+  - ls
+
 script:
   - find grpc -name "*.go" -not -path "grpc/vendor/*" | xargs gofmt -w
   - git diff --exit-code --quiet
