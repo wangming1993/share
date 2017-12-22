@@ -1,0 +1,28 @@
+#!/usr/bin/env bash
+
+
+PROTO_PATH="${GOPATH}/src/github.com/wangming1993/share/grpc/proto"
+
+PROTOC_IMAGE="registry.cn-hangzhou.aliyuncs.com/wangming/protoc:1.0"
+
+
+# grpc
+docker run -i --rm \
+    -v ${PROTO_PATH}:/mike/proto \
+    -w /mike/proto \
+    ${PROTOC_IMAGE} \
+    bash -c "protoc -I=. *.proto --go_out=plugins=grpc:."
+
+# grpc gateway
+# docker run -i --rm \
+#     -v ${PROTO_PATH}:/srv/proto \
+#     -w /srv/proto \
+#     registry.cn-shanghai.aliyuncs.com/qunz/protoc \
+#     bash -c "protoc -I=. ./services.proto --grpc-gateway_out=logtostderr=true:."
+
+# swagger
+docker run -i --rm \
+    -v ${PROTO_PATH}:/mike/proto \
+    -w /mike/proto \
+    ${PROTOC_IMAGE} \
+    bash -c "protoc -I=. ./*.proto --swagger_out=logtostderr=true:."

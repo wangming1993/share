@@ -1,0 +1,6 @@
+echo "Swagger UI: http://127.0.0.1:8082/"
+
+swaggerJsonFile="hello.swagger.json"
+
+docker run -p 8082:8080 -e SWAGGER_JSON=/srv/${swaggerJsonFile} \
+    -v $(pwd):/srv swaggerapi/swagger-ui

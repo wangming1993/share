@@ -2,6 +2,8 @@ syntax = "proto3";
 
 package proto;
 
+import "google/api/annotations.proto";
+
 // protoc -I=. *.proto --go_out=plugins=grpc:.
 
 message MemberInfoRequest {
@@ -16,5 +18,9 @@ message MemberInfoResponse {
 }
 
 service MemberService {
-    rpc GetMember(MemberInfoRequest) returns (MemberInfoResponse);
+    rpc GetMember(MemberInfoRequest) returns (MemberInfoResponse) {
+        option (google.api.http) = {
+            get: "/mmeber/{id}"
+        };
+    };
 }
