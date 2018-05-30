@@ -17,9 +17,11 @@ message HelloResponse {
 }
 
 service HelloService {
-    rpc SayHello(common.Int64Request) returns (HelloResponse){
+    rpc SayHello(common.Int64Message) returns (HelloResponse){
         option (google.api.http) = {
             get: "/hello/say"
         };
     };
+
+    rpc Greeting(common.EmptyMessage) returns (common.EmptyMessage){};
 }

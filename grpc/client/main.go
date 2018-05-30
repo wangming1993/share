@@ -35,7 +35,7 @@ func sayHello() {
 	ticker := time.NewTicker(2 * time.Second)
 	for t := range ticker.C {
 		client := pb.NewHelloServiceClient(conn)
-		resp, err := client.SayHello(context.Background(), &common.Int64Request{Id: 1})
+		resp, err := client.SayHello(context.Background(), &common.Int64Message{Id: 1})
 		if err != nil {
 			panic(err)
 		}

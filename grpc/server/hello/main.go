@@ -42,6 +42,10 @@ func main() {
 
 type helloServer struct{}
 
-func (helloServer) SayHello(ctx context.Context, req *common.Int64Request) (*proto.HelloResponse, error) {
+func (helloServer) SayHello(ctx context.Context, req *common.Int64Message) (*proto.HelloResponse, error) {
 	return &proto.HelloResponse{}, nil
+}
+
+func (helloServer) Greeting(ctx context.Context, req *common.EmptyMessage) (*common.EmptyMessage, error) {
+	return &common.EmptyMessage{}, nil
 }

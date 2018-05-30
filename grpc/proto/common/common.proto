@@ -4,6 +4,8 @@ package proto.common;
 
 option go_package = "common";
 
-message Int64Request {
+message Int64Message {
     int64 id = 1;
 }
+
+message EmptyMessage {}
