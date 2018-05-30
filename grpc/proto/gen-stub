@@ -1,7 +1,9 @@
 #!/usr/bin/env bash
 
 
-PROTO_PATH="${GOPATH}/src/github.com/wangming1993/share/grpc/proto"
+PROJECT="github.com/wangming1993/share/grpc/proto"
+
+PROTO_PATH="${GOPATH}/src/${PROJECT}"
 
 PROTOC_IMAGE="registry.cn-hangzhou.aliyuncs.com/wangming/protoc:1.0"
 
@@ -11,7 +13,18 @@ docker run -i --rm \
     -v ${PROTO_PATH}:/mike/proto \
     -w /mike/proto \
     ${PROTOC_IMAGE} \
-    bash -c "protoc -I=. *.proto --go_out=plugins=grpc:."
+    bash -c """
+        protoc -I=. *.proto --go_out=plugins=grpc,Mcommon/common.proto=${PROJECT}/common:.
+    """
+
+docker run -i --rm \
+    -v ${PROTO_PATH}:/mike/proto \
+    -w /mike/proto \
+    ${PROTOC_IMAGE} \
+    bash -c """
+        protoc -I=. common/*.proto --go_out=plugins=grpc:.
+    """
+
 
 # grpc gateway
 # docker run -i --rm \
@@ -21,8 +34,8 @@ docker run -i --rm \
 #     bash -c "protoc -I=. ./services.proto --grpc-gateway_out=logtostderr=true:."
 
 # swagger
-docker run -i --rm \
-    -v ${PROTO_PATH}:/mike/proto \
-    -w /mike/proto \
-    ${PROTOC_IMAGE} \
-    bash -c "protoc -I=. ./*.proto --swagger_out=logtostderr=true:."
+#docker run -i --rm \
+#    -v ${PROTO_PATH}:/mike/proto \
+#    -w /mike/proto \
+#    ${PROTOC_IMAGE} \
+#    bash -c "protoc -I=. ./*.proto --swagger_out=logtostderr=true:."

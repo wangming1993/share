@@ -19,11 +19,7 @@ cd $GOPATH/src/github.com/wangming1993/share/grpc/proto
 
 docker pull registry.cn-hangzhou.aliyuncs.com/wangming/protoc:1.0
 
-docker run -i --rm \
-    -v $GOPATH/src/github.com/wangming1993/share/grpc/proto:/srv/proto \
-    -w /srv/proto \
-    registry.cn-hangzhou.aliyuncs.com/wangming/protoc:1.0 \
-    bash -c "protoc -I=. *.proto --go_out=plugins=grpc:."
+./gen-stub
 ```
 
 ## 启动 grpc 服务器

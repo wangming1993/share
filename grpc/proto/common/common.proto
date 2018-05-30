@@ -1,0 +1,9 @@
+syntax = "proto3";
+
+package proto.common;
+
+option go_package = "common";
+
+message Int64Request {
+    int64 id = 1;
+}

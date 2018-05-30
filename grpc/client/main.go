@@ -7,6 +7,7 @@ import (
 
 	"github.com/wangming1993/share/grpc/discovery/consul"
 	pb "github.com/wangming1993/share/grpc/proto"
+	"github.com/wangming1993/share/grpc/proto/common"
 	"golang.org/x/net/context"
 	"google.golang.org/grpc"
 )
@@ -34,7 +35,7 @@ func sayHello() {
 	ticker := time.NewTicker(2 * time.Second)
 	for t := range ticker.C {
 		client := pb.NewHelloServiceClient(conn)
-		resp, err := client.SayHello(context.Background(), &pb.HelloRequest{Greeting: "world"})
+		resp, err := client.SayHello(context.Background(), &common.Int64Request{Id: 1})
 		if err != nil {
 			panic(err)
 		}

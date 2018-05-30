@@ -4,6 +4,8 @@ package proto;
 
 import "google/api/annotations.proto";
 
+import "common/common.proto";
+
 // protoc -I=. *.proto --go_out=plugins=grpc:.
 
 message HelloRequest {
@@ -15,9 +17,9 @@ message HelloResponse {
 }
 
 service HelloService {
-    rpc SayHello(HelloRequest) returns (HelloResponse){
+    rpc SayHello(common.Int64Request) returns (HelloResponse){
         option (google.api.http) = {
             get: "/hello/say"
-        };   
+        };
     };
 }
