@@ -1,0 +1,256 @@
+<!--
+    Powered By nodeppt - This is probably the best web presentation tool so far!
+    version: 1.4.5
+    site: https://github.com/ksky521/nodeppt
+    date: 
+-->
+<!doctype html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>基于 grpc + consul 的微服务系统 - By Mike Wang</title>
+    <link rel="stylesheet" media="all" href="./css/nodeppt.css">
+    <link rel="stylesheet" media="only screen and (max-device-width: 480px)" href="./css/phone.css">
+    
+    <link rel="stylesheet" href="./js/highlight/styles/monokai_sublime.css">
+    <link rel="stylesheet" href="./css/font-awesome.css">
+    
+<link rel="stylesheet" href="./css/theme.moon.css">
+</head>
+<body>
+<div class="slides">
+    <slides id="container">
+        <slide class="slide"><section class="slide-wrapper"><article class="flexbox vcenter">
+<h1>基于 grpc + consul 的微服务系统</h1>
+<h2>演讲者：Mike Wang</h2>
+
+</article></section></slide>
+<slide class="slide"><section class="slide-wrapper"><article class="flexbox vcenter">
+<h1>什么是微服务</h1>
+<p>系统由N多可独立部署的服务组成，各个微服务之间是松耦合的。每个微服务仅关注于完成一件任务。在所有情况下，每个任务代表着一个小的业务能力</p>
+
+</article></section></slide>
+<slide class="slide"><section class="slide-wrapper"><article>
+<h2>微服务架构的优点：</h2>
+<ul>
+<li>每个服务都比较简单，只关注于一个业务功能。</li>
+<li>微服务架构方式是松耦合的，可以提供更高的灵活性。</li>
+<li>微服务在语言选择上更灵活，不同服务的团队可以选择自己熟练的语言。</li>
+<li>每个微服务可由不同团队独立开发，互不影响，加快推出市场的速度。</li>
+<li>微服务架构是持续交付(CD)的巨大推动力，允许在频繁发布不同服务的同时保持系统其他部分的可用性和稳定性</li>
+</ul>
+
+</article></section></slide>
+<slide class="slide"   data-on-build="Slide.magic" data-on-enter="Slide.magic.init"><section class="slide-wrapper"><div class="magic"><div class="magicItem current pagedown"  data-transition="cover-circle"><article>
+<div class="magic-wrapper">
+<article>
+
+<h2>单体架构图</h2>
+<div>
+    <img src="./img/monolithic.png" width="600px;">
+</div>
+</article>
+</div>
+</article></div>
+<div class="magicItem next pagedown"  data-transition="cover-circle"><article>
+<div class="magic-wrapper">
+<article>
+<h2>微服务架构图</h2>
+<div>
+    <img src="./img/microservice.png" width="800px;">
+</div>
+</article>
+</div>
+</article></div></div></section></slide>
+<slide class="slide"><section class="slide-wrapper"><article class="flexbox vcenter">
+<h1>WHY GRPC!!!</h1>
+<h2><a href="https://grpc.io/" target="_blank">https://grpc.io/</a></h2>
+
+</article></section></slide>
+<slide class="slide"><section class="slide-wrapper"><article>
+<img src="./img/grpc-features.png" alt="">
+
+</article></section></slide>
+<slide class="slide"><section class="slide-wrapper"><article class="flexbox vcenter">
+<h1>服务定义简单, 基于 <a href="https://developers.google.com/protocol-buffers/docs/overview" target="_blank">Protocol Buffer</a></h1>
+<ul>
+<li>protocol buffers 是一种与语言，平台无关的数据序列化协议，由 google 开源</li>
+<li>它灵活， 高效， 自动化， 类似于 XML, JSON, 但是更小，更快，更简单</li>
+</ul>
+
+</article></section></slide>
+<slide class="slide"><section class="slide-wrapper"><article>
+<pre><code class="proto">syntax = &quot;proto3&quot;;
+
+package proto;
+
+// protoc -I=. *.proto --go_out=plugins=grpc:.
+
+message HelloRequest {
+    string greeting = 1;
+}
+
+message HelloResponse {
+    string reply = 1;
+}
+
+service HelloService {
+    rpc SayHello(HelloRequest) returns (HelloResponse);
+}
+</code></pre>
+
+</article></section></slide>
+<slide class="slide"><section class="slide-wrapper"><article>
+<h2>多语言支持</h2>
+<img src="./img/grpc-languages.png" alt="">
+
+</article></section></slide>
+<slide class="slide"><section class="slide-wrapper"><article class="flexbox vcenter">
+<h1>基于 http2 的数据传输</h1>
+<ul>
+<li>多路复用</li>
+<li>二进制分帧</li>
+<li>首部压缩</li>
+<li>服务端推送</li>
+</ul>
+
+</article></section></slide>
+<slide class="slide"><section class="slide-wrapper"><article>
+<img src="./img/http2.png" alt="">
+
+</article></section></slide>
+<slide class="slide"><section class="slide-wrapper"><article>
+<h2>使用 consul 实现服务注册与服务发现</h2>
+<ul>
+<li>Consul 是一个支持多数据中心分布式高可用的服务发现和配置共享的服务软件,用 Go 语言开发</li>
+<li>一致性协议采用 Raft 算法,用来保证服务的高可用</li>
+</ul>
+
+</article></section></slide>
+<slide class="slide"><section class="slide-wrapper"><article>
+<p>基于<a href="https://github.com/hashicorp/consul-template" target="_blank">consul-template</a>的配置管理</p>
+
+</article></section></slide>
+<slide class="slide"><section class="slide-wrapper"><article class="flexbox vcenter">
+<h1>与 docker 的完美配合</h1>
+<ul>
+<li><a href="https://github.com/joyent/containerpilot/blob/master/docs/30-configuration/32-configuration-file.md#consul" target="_blank">containerpilot</a></li>
+</ul>
+
+</article></section></slide>
+<slide class="slide"><section class="slide-wrapper"><article class="flexbox vcenter">
+<h1>日志服务</h1>
+<h2><code>sls</code> + <code>TraceId</code></h2>
+<ul>
+<li>每一个 request 会携带一个 <code>X-Req-ID</code> 的 <code>Header</code>, grpc 调用时会携带在 <code>context</code> metadata 中，记录整个链路调用过程</li>
+</ul>
+
+</article></section></slide>
+<slide class="slide"><section class="slide-wrapper"><article>
+<h2>监控服务</h2>
+<p><a href="https://www.elastic.co/products/kibana" target="_blank">kibana</a> + <a href="https://www.influxdata.com/" target="_blank">influxdb</a></p>
+
+</article></section></slide>
+<slide class="slide"><section class="slide-wrapper"><article>
+<h2>middleware</h2>
+<ul>
+<li>go-grpc-middleware <ul>
+<li><a href="https://github.com/grpc-ecosystem/go-grpc-middleware" target="_blank">https://github.com/grpc-ecosystem/go-grpc-middleware</a></li>
+</ul>
+</li>
+<li>tracing  <ul>
+<li><a href="https://github.com/opentracing/opentracing-go" target="_blank">https://github.com/opentracing/opentracing-go</a></li>
+</ul>
+</li>
+<li>熔断和服务降级 <ul>
+<li><a href="https://github.com/Netflix/Hystrix" target="_blank">https://github.com/Netflix/Hystrix</a></li>
+</ul>
+</li>
+<li>grpc-gateway <ul>
+<li><a href="https://github.com/grpc-ecosystem/grpc-gateway" target="_blank">https://github.com/grpc-ecosystem/grpc-gateway</a></li>
+</ul>
+</li>
+</ul>
+
+</article></section></slide>
+<slide class="slide"><section class="slide-wrapper"><article class="flexbox vcenter">
+<h1>THANKS !!!</h1>
+<h2>Mike Wang</h2>
+
+</article></section></slide>
+        
+
+        <!-- <slide class="slide logoslide dark nobackground">
+            <article class="flexbox vcenter">
+                <h2 style="color: white;">Powered By nodeppt v1.4.5</h2>
+            </article>
+        </slide> -->
+        <div class="slideTip" id="tip"></div>
+    </slides>
+</div>
+<canvas id="drawBoard" class="draw-board" width="900" height="700"></canvas>
+<div class="progress"><span id="progress"></span></div>
+<div id="_buttons">
+    <div class="_btn-box" id="_btn-box" style="display:none;">
+        <button class="fa fa-arrow-circle-left" id="_btn-prev"></button>
+        <button class="fa fa-arrow-circle-right" id="_btn-next"></button>
+        <button class="fa fa-paint-brush" id="_btn-brush"></button>
+        <button class="fa fa-compress" id="_btn-overview" data-toggle="fa fa-expand"></button>
+    </div>
+    <button class="fa fa-bars" id="_btn-bar"  data-toggle="fa fa-close"></button>
+</div>
+<script src="./js/mixjs/lib/mix.0.3.0.min.js"></script>
+<script>
+    var ASSET_RELATIVE_DIR = ".";
+</script>
+<script>
+var base = location.protocol + '//' + location.host;
+
+var path = (location.pathname + '#').split('/').filter(function(v){
+    return !!v;
+});
+path.pop();
+path = path.join('/');
+if (typeof ASSET_RELATIVE_DIR === 'string') {
+    path = path + '/' + ASSET_RELATIVE_DIR;
+}
+MixJS.config({
+    baseURL: [ base, path, 'js'].join('/')+'/'
+});
+
+</script>
+<script src="./js/mixjs/lib/event/broadcast.js"></script>
+<script src="./js/nodeppt.js"></script>
+<script>
+Slide.init({
+    containerID: 'container',
+    drawBoardID: 'drawBoard',
+    slideClass: '.slide',
+    buildClass: '.build',
+    progressID: 'progress',
+    transition: 'cards',
+    width: 1100,
+    dir: './',
+    
+    //打开下面的注释就开启postMessage方式
+    //访问网址127.0.0.1:8080/ppt/demo#client
+    control:{
+        type: 'postMessage',
+        args:{
+            isControl:  false
+        }
+    },
+    
+    tipID: 'tip'
+});
+MixJS.loadJS('highlight/highlight.pack.js',function(){
+    hljs.tabReplace = '  ';
+    hljs.initHighlightingOnLoad();
+});
+</script>
+<script src="./js/demo.js"></script>
+<link rel="stylesheet" href="./css/demo.css">
+
+<!--placeholder-->
+</body>
+</html>
